@@ -54,9 +54,9 @@ public class UsuarioMediator {
             usuarioDAO.alterar(usuario);
 
             if (usuario.getExp() >= 100) {
-                aumentarNivelUsuarioPorId(id);
                 usuario.setExp(0);
                 usuarioDAO.alterar(usuario);
+                aumentarNivelUsuarioPorId(id);
             }
 
             return true;
