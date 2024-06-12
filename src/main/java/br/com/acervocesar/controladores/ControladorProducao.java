@@ -2,7 +2,7 @@ package br.com.acervocesar.controladores;
 
 import br.com.acervocesar.dto.ProducaoDTO;
 import br.com.acervocesar.entidade.producao.Producao;
-import br.com.acervocesar.mediator.MediatorProducao;
+import br.com.acervocesar.mediator.ProducaoMediator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ControladorProducao {
 
     @Autowired
-    MediatorProducao mediatorProducao = new MediatorProducao();
+    ProducaoMediator mediatorProducao = new ProducaoMediator();
 
     @GetMapping
     public ResponseEntity getTodasProducoes() {
@@ -24,6 +24,16 @@ public class ControladorProducao {
     @PostMapping("/{id}")
     public ResponseEntity adicionarProducao(@PathVariable String id, @RequestBody ProducaoDTO producao){
         return ResponseEntity.status(201).body(mediatorProducao.createProducao(producao, id));
+    }
+
+    @PostMapping("/{id}/votoPositivo")
+    public ResponseEntity adicionarVotoPositivoProducao(@PathVariable String id){
+        return ResponseEntity.status(200).body(mediatorProducao.aumentarVotosPositivosPorId(id));
+    }
+
+    @PostMapping("/{id}/votoNegativo")
+    public ResponseEntity adicionarVotoNegativoProducao(@PathVariable String id){
+        return ResponseEntity.status(200).body(mediatorProducao.aumentarVotosNegativosPorId(id));
     }
 
     @GetMapping("/{id}")

@@ -1,8 +1,7 @@
 package br.com.acervocesar.controladores;
 
 import br.com.acervocesar.dto.UsuarioDTO;
-import br.com.acervocesar.entidade.usuario.Usuario;
-import br.com.acervocesar.mediator.MediatorUsuario;
+import br.com.acervocesar.mediator.UsuarioMediator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class ControladorUsuario {
 
     @Autowired
-    private MediatorUsuario mediatorUsuario;
+    private UsuarioMediator mediatorUsuario;
 
     @GetMapping
     public ResponseEntity getTodosUsuarios() {

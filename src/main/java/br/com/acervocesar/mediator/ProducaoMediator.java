@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class MediatorProducao {
+public class ProducaoMediator {
 
     @Autowired
     private ProducaoDAO producaoDao;
+
+    @Autowired
+    private UsuarioMediator usuarioMediator;
 
     // Retrieve all users
     public Producao[] getAllProducoes() {
@@ -34,6 +37,30 @@ public class MediatorProducao {
         }
 
         return null;
+    }
+
+    public boolean aumentarVotosPositivosPorId(String id) {
+        Producao producao = producaoDao.buscar(id);
+        if (producao != null) {
+            producao.setVotosPositivos(producao.getVotosPositivos() + 1);
+
+            usuarioMediator.aumentarEXPUsuarioPorId(producao.getUsuarioId(), 50);
+
+            producaoDao.alterar(producao);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean aumentarVotosNegativosPorId(String id) {
+        Producao producao = producaoDao.buscar(id);
+        if (producao != null) {
+            producao.setVotosNegativos(producao.getVotosNegativos() + 1);
+
+            producaoDao.alterar(producao);
+            return true;
+        }
+        return false;
     }
 
     // Update an existing user

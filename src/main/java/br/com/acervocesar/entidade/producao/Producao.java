@@ -1,6 +1,5 @@
 package br.com.acervocesar.entidade.producao;
 
-import br.com.acervocesar.entidade.usuario.Usuario;
 import br.com.acervocesar.utils.Registro;
 import lombok.*;
 
@@ -10,7 +9,7 @@ public class Producao extends Registro {
 
     private String usuarioId;
 
-    private String coAutores;
+    private String[] coAutores;
 
     private String tipoProducao;
 

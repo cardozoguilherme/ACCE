@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class MediatorUsuario {
+public class UsuarioMediator {
 
     @Autowired
     private UsuarioDAO usuarioDAO;
@@ -32,7 +32,8 @@ public class MediatorUsuario {
     // Create a new user
     public String createUsuario(UsuarioDTO usuarioDTO) {
         UUID uuid = UUID.randomUUID();
-        Usuario usuario = new Usuario(uuid.toString(), usuarioDTO.nome(), usuarioDTO.sobrenome(), usuarioDTO.email(), usuarioDTO.fotoPerfil(), usuarioDTO.idLattes(), usuarioDTO.ocupacao(), usuarioDTO.senha(), 0);
+        ArrayList<String> conquistas = new ArrayList();
+        Usuario usuario = new Usuario(uuid.toString(), usuarioDTO.nome(), usuarioDTO.sobrenome(), usuarioDTO.email(), usuarioDTO.fotoPerfil(), usuarioDTO.idLattes(), usuarioDTO.ocupacao(), usuarioDTO.senha(), conquistas, 0, 0);
 
         if (!usuarioDAO.incluir(usuario)) {
             return "Não foi possível incluir o usuário no banco de dados.";
@@ -46,12 +47,39 @@ public class MediatorUsuario {
         return usuarioDAO.alterar(usuarioAtualizado);
     }
 
+    public boolean aumentarEXPUsuarioPorId(String id, int exp) {
+        Usuario usuario = usuarioDAO.buscar(id);
+        if (usuario != null) {
+            usuario.setExp(usuario.getExp() + exp);
+            usuarioDAO.alterar(usuario);
+
+            if (usuario.getExp() >= 100) {
+                aumentarNivelUsuarioPorId(id);
+                usuario.setExp(0);
+                usuarioDAO.alterar(usuario);
+            }
+
+            return true;
+        }
+        return false;
+    }
+
     public boolean aumentarNivelUsuarioPorId(String id) {
         Usuario usuario = usuarioDAO.buscar(id);
         if (usuario != null) {
+
             usuario.setNivel(usuario.getNivel() + 1);
 
+            if (usuario.getNivel() == 100) {
+                usuario.adicionarConquista("Prêmio ACCE Bronze");
+            } else if (usuario.getNivel() == 300) {
+                usuario.adicionarConquista("Prêmio ACCE Prata");
+            } else if (usuario.getNivel() == 500) {
+                usuario.adicionarConquista("Prêmio ACCE Ouro");
+            }
+
             usuarioDAO.alterar(usuario);
+
             return true;
         }
         return false;

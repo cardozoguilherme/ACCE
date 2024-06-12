@@ -1,7 +1,7 @@
 package br.com.acervocesar.dto;
 
 public record ProducaoDTO(
-        String coAutores,
+        String[] coAutores,
         String tipoProducao,
         String[] tags,
         String titulo,
