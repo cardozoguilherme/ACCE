@@ -1,4 +1,4 @@
-package br.com.acervocesar.entidades.producao;
+package br.com.acervocesar.entidade.producao;
 
 public enum TipoProducao {
     PRODUCAO_BIBLIOGRAFICA("Produção Bibliográfica"),
